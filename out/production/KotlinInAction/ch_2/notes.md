@@ -72,7 +72,7 @@
 
 ---
 
-## 2.3. REPRESENTING AND HANDLING CHOICES: ENUMS AND “WHEN
+## 2.3. REPRESENTING AND HANDLING CHOICES: ENUMS AND WHEN
 
 ### 2.3.1. Declaring enum classes
 
@@ -148,5 +148,24 @@
 
 ### 2.5.1. “try”, “catch”, and “finally
 
+* The biggest difference from Java is that the throws clause isn’t present in the code: if you wrote this function in Java, you’d explicitly write throws IOException after the function declaration. You’d need to do this because IOException is a **checked exception**.
 
+* Just like many other modern JVM languages, Kotlin doesn’t differentiate between checked and unchecked exceptions. You don’t specify the exceptions thrown by a function, and you may or may not handle any exceptions. This design decision is based on the practice of using checked exceptions in Java. Experience has shown that the Java rules often require a lot of meaningless code to rethrow or ignore exceptions, and the rules don’t consistently protect you from the errors that can happen.
 
+> ✅ Ex_2_5.kt (2.5.1)
+
+### 2.5.2. “try” as an expression
+
+* The try keyword in Kotlin, just like if and when, introduces an expression, and you can assign its value to a variable. Unlike with if, you always need to enclose the statement body in curly braces. Just as in other statements, if the body contains multiple expressions, the value of the try expression as a whole is the value of the last expression.
+
+## 2.6. SUMMARY
+
+* The fun keyword is used to declare a function. The val and var keywords declare read-only and mutable variables, respectively. 
+* String templates help you avoid noisy string concatenation. Prefix a variable name with $ or surround an expression with ${ } to have its value injected into the string. 
+* Value-object classes are expressed in a concise way in Kotlin. 
+* The familiar if is now an expression with a return value. 
+* The when expression is analogous to switch in Java but is more powerful. 
+* You don’t have to cast a variable explicitly after checking that it has a certain type: the compiler casts it for you automatically using a smart cast. 
+* The for, while, and do-while loops are similar to their counterparts in Java, but the for loop is now more convenient, especially when you need to iterate over a map or a collection with an index. 
+* The concise syntax 1..5 creates a range. Ranges and progressions allow Kotlin to use a uniform syntax and set of abstractions in for loops and also work with the in and !in operators that check whether a value belongs to a range. 
+* Exception handling in Kotlin is very similar to that in Java, except that Kotlin doesn’t require you to declare the exceptions that can be thrown by a function.

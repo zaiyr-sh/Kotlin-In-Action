@@ -82,7 +82,7 @@ java -jar <jar name>
 ![Figure 1.1. Kotlin build process](../res/fig_1_1.png)
 > Figure 1.1. Kotlin build process
 
-* In most real-life cases, you’ll be using a build system such as Maven, Gradle, or Ant to compile your code. Kotlin is compatible with all those build systems, and we’ll discuss the details in appendix A. All of those build systems also support mixed-language projects that combine Kotlin and Java in the same codebase. In addition, Maven and Gradle take care of including the Kotlin runtime library as a dependency of your application.
+* In most real-life cases, you’ll be using a build system such as Maven, Gradle, or Ant to compile your code. Kotlin is compatible with all those build systems. All of those build systems also support mixed-language projects that combine Kotlin and Java in the same codebase. In addition, Maven and Gradle take care of including the Kotlin runtime library as a dependency of your application.
 
 ### 1.5.2. Plug-in for IntelliJ IDEA and Android Studio
 
