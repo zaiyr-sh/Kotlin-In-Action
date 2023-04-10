@@ -70,20 +70,6 @@ abstract class Animated {
     fun animaTwice() {}
 }
 
-// 4.1.3
-internal open class TalkativeButton : Focusable {
-    private fun yell() = println("Hey!")
-    protected fun whisper() = println("Let's talk!")
-}
-
-// Error: "public" member exposes its "internal" receiver type TalkativeButton
-//fun TalkativeButton.giveSpeech() {
-//    // Error: cannot access "yell": it is "private" in "TalkativeButton"
-//    yell()
-//    // Error: cannot access "whisper": it is "protected" in "TalkativeButton"
-//    whisper()
-//}
-
 // 4.1.4
 interface State: Serializable
 

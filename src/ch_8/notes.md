@@ -32,7 +32,7 @@ simpler case and store a lambda in a local variable.
 
 > ✅ Ex_8_1.kt (8.1.1)
 
-* The compiler infers that both the sum and action variables have function types.
+* The compiler infers that both the `sum` and `action` variables have function types.
 
 * To declare a function type, you put the function parameter types in parentheses, followed by an arrow and the return 
 type of the function
@@ -51,8 +51,8 @@ lambda itself.
 * The return type of a function type can be marked as nullable.
 
 * You can also define a nullable variable of a function type. To specify that the variable itself, rather than the 
-return type of the function, is nullable, you need to enclose the entire function type definition in parentheses and put 
-the question mark after the parentheses.
+return type of the function, is nullable, you need to enclose the entire function type definition in parentheses and 
+put the question mark after the parentheses.
 
 * You can specify names for parameters of a function type.
 
@@ -69,7 +69,7 @@ for code completion.
 parentheses after the function name, and you put the parameters inside the parentheses.
 
 ![Figure 8.2. Declaration of the filter function, taking a predicate as a parameter.](../res/fig_8_2.png)
-> Figure 8.2. Declaration of the filter function, taking a predicate as a parameter.
+> Figure 8.2. Declaration of the `filter` function, taking a predicate as a parameter.
 
 * The `filter` function takes a predicate as a parameter. The type of `predicate` is a function that takes a character 
 parameter and returns a `boolean` result. The result is `true` if the character passed to the predicate needs to be 
@@ -98,14 +98,24 @@ corresponding function interface.
 conversion: how individual values in the collection are converted to strings. The code uses 
 `StringBuilder.append(o: Any?)`, which always converts the object to a string using the `toString` method. This is good 
 in a lot of cases, but not always. You now know that you can pass a lambda to specify how values are converted into 
-strings. But requiring all callers to pass that lambda would be cumbersome, because most of them are OK with the default 
-behavior. To solve this, you can define a parameter of a function type and specify a default value for it as a lambda.
+strings. But requiring all callers to pass that lambda would be cumbersome, because most of them are OK with the 
+default behavior. To solve this, you can define a parameter of a function type and specify a default value for it as a 
+lambda.
 
 > ✅ Ex_8_1.kt (8.1.4)
 
 * An alternative approach is to declare a parameter of a nullable function type. Note that you can’t call the function 
-passed in such a parameter directly: Kotlin will refuse to compile such code, because it detects the possibility of null 
-pointer exceptions in this case. One option is to check for `null` explicitly.
+passed in such a parameter directly: Kotlin will refuse to compile such code, because it detects the possibility of 
+null pointer exceptions in this case. One option is to check for `null` explicitly:
+
+```kotlin
+fun foo(callback: (() -> Unit)?) {
+    // ...
+    if (callback != null) {
+        callback()
+    }
+}
+```
 
 * A shorter version makes use of the fact that a function type is an implementation of an interface with an `invoke` 
 method. As a regular method, invoke can be called through the safe-call syntax: `callback?.invoke()`.
@@ -146,13 +156,13 @@ to describe the strategy, and pass different lambda expressions as different str
 ## 8.2. Inline functions: removing the overhead of lambdas
 
 * You’ve probably noticed that the shorthand syntax for passing a lambda as an argument to a function in Kotlin looks 
-similar to the syntax of regular statements such as if and for. But what about performance? Aren’t we creating 
+similar to the syntax of regular statements such as `if` and `for`. But what about performance? Aren’t we creating 
 unpleasant surprises by defining functions that look exactly like Java statements but run much more slowly?
 
 * In chapter 5, we explained that lambdas are normally compiled to anonymous classes. But that means every time you use 
 a lambda expression, an extra class is created; and if the lambda captures some variables, then a new object is created 
-on every invocation. This introduces runtime overhead, causing an implementation that uses a lambda to be less efficient 
-than a function that executes the same code directly.
+on every invocation. This introduces runtime overhead, causing an implementation that uses a lambda to be less 
+efficient than a function that executes the same code directly.
 
 * Could it be possible to tell the compiler to generate code that’s as efficient as a Java statement and yet lets you 
 extract the repeated logic into a library function? Indeed, the Kotlin compiler allows you to do that. If you mark a 
@@ -170,7 +180,7 @@ where the function is called instead of being invoked normally.
 function locks a `Lock` object, executes the given block of code, and then releases the lock.
 
 * The syntax for calling this function looks exactly like using the `synchronized` statement in Java. The difference is 
-that the Java `synchronized` statement can be used with any object, whereas this function requires you to pass a Lock 
+that the Java `synchronized` statement can be used with any object, whereas this function requires you to pass a `Lock` 
 instance. The definition shown here is just an example; the Kotlin standard library defines a different version of 
 `synchronized` that accepts any object as an argument.
 
@@ -203,10 +213,10 @@ lambdas substituted into it.
 ### 8.2.2. Restrictions on inline functions
 
 * Due to the way inlining is performed, not every function that uses lambdas can be inlined. When the function is 
-inlined, the body of the lambda expression that’s passed as an argument is substituted directly into the resulting code. 
-That restricts the possible uses of the corresponding parameter in the function body. If this parameter is called, such 
-code can be easily inlined. But if the parameter is stored somewhere for further use, the code of the lambda expression 
-can’t be inlined, because there must be an object that contains this code.
+inlined, the body of the lambda expression that’s passed as an argument is substituted directly into the resulting 
+code. That restricts the possible uses of the corresponding parameter in the function body. If this parameter is 
+called, such code can be easily inlined. But if the parameter is stored somewhere for further use, the code of the 
+lambda expression can’t be inlined, because there must be an object that contains this code.
 
 * Generally, the parameter can be inlined if it’s called directly or passed as an argument to another inline function. 
 Otherwise, the compiler will prohibit the inlining of the parameter with an error message that says “Illegal usage of 
@@ -215,6 +225,12 @@ inline-parameter.”
 * If you have a function that expects two or more lambdas as arguments, you may choose to inline only some of them. 
 This makes sense when one of the lambdas is expected to contain a lot of code or is used in a way that doesn’t allow 
 inlining. You can mark the parameters that accept such non-inlineable lambdas with the `noinline` modifier.
+
+```kotlin
+inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
+  // ...
+}
+```
 
 * Note that the compiler fully supports inlining functions across modules, or functions defined in third-party 
 libraries. You can also call most inline functions from Java; such calls will not be inlined, but will be compiled as 
@@ -250,17 +266,17 @@ processed nicely with regular collection operations.
 * Using the `inline` keyword is likely to improve performance only with functions that take lambdas as arguments; all 
 other cases require additional measuring and investigation.
 
-* For regular function calls, the JVM already provides powerful inlining support. It analyzes the execution of your code 
-and inlines calls whenever doing so provides the most benefit. This happens automatically while translating bytecode to 
-machine code. In bytecode, the implementation of each function is repeated only once and doesn’t need to be copied to 
-every place where the function is called, as with Kotlin’s `inline` functions. What’s more, the stacktrace is clearer if 
-the function is called directly.
+* For regular function calls, the JVM already provides powerful inlining support. It analyzes the execution of your 
+code and inlines calls whenever doing so provides the most benefit. This happens automatically while translating 
+bytecode to machine code. In bytecode, the implementation of each function is repeated only once and doesn’t need to be 
+copied to every place where the function is called, as with Kotlin’s `inline` functions. What’s more, the stacktrace is 
+clearer if the function is called directly.
 
 * On the other hand, inlining functions with lambda arguments is beneficial. First, the overhead you avoid through 
-inlining is more significant. You save not only on the call, but also on the creation of the extra class for each lambda 
-and an object for the lambda instance. Second, the JVM currently isn’t smart enough to always perform inlining through 
-the call and the lambda. Finally, inlining lets you use features that are impossible to make work with regular lambdas, 
-such as non-local returns, which we’ll discuss later in this chapter.
+inlining is more significant. You save not only on the call, but also on the creation of the extra class for each 
+lambda and an object for the lambda instance. Second, the JVM currently isn’t smart enough to always perform inlining 
+through the call and the lambda. Finally, inlining lets you use features that are impossible to make work with regular 
+lambdas, such as non-local returns, which we’ll discuss later in this chapter.
 
 * But you should still pay attention to the code size when deciding whether to use the `inline` modifier. If the 
 function you want to inline is large, copying its bytecode into every call site could be expensive in terms of bytecode 
@@ -282,8 +298,8 @@ read the first line from a file.
 > Figure 8.6. Using try-with-resources in Java.
 
 * Kotlin doesn’t have equivalent syntax, because the same task can be accomplished almost as seamlessly through a 
-function with a parameter of a function type (that expects a lambda as an argument). The function is called `use` and is 
-included in the Kotlin standard library. Here’s how you can use this function in Kotlin.
+function with a parameter of a function type (that expects a lambda as an argument). The function is called `use` and 
+is included in the Kotlin standard library. Here’s how you can use this function in Kotlin.
 
 > ✅ Ex_8_2.kt (8.2.5)
 
@@ -291,7 +307,7 @@ included in the Kotlin standard library. Here’s how you can use this function 
 function calls the lambda and ensures that the resource is closed, regardless of whether the lambda completes normally 
 or throws an exception. Of course, the `use` function is inlined, so its use doesn’t incur any performance overhead.
 
-* Note that in the body of the lambda, you use a non-local return to `return` a value from the `readFirstLineFromFile` 
+* Note that in the body of the lambda, you use a non-local `return` to return a value from the `readFirstLineFromFile` 
 function. Let’s discuss the use of `return` expressions in lambdas in detail.
 
 ---
@@ -309,22 +325,23 @@ person’s name is Alice, you return from the function `lookForAlice`.
 
 > ✅ Ex_8_3.kt (8.3.1)
 
-* Is it safe to rewrite this code using `forEach` iteration? Will the `return` statement mean the same thing? Yes, it’s safe to use the forEach function instead.
+* Is it safe to rewrite this code using `forEach` iteration? Will the `return` statement mean the same thing? Yes, it’s 
+safe to use the `forEach` function instead.
 
-* If you use the `return` keyword in a lambda, it **returns from the function in which you called the lambda**, not just 
-from the lambda itself. Such a `return` statement is called a **non-local return**, because it returns from a larger 
-block than the block containing the `return` statement.
+* If you use the `return` keyword in a lambda, it **returns from the function in which you called the lambda**, not 
+just from the lambda itself. Such a `return` statement is called a **non-local return**, because it returns from a 
+larger block than the block containing the `return` statement.
 
 * To understand the logic behind the rule, think about using a `return` keyword in a `for` loop or a `synchronized` 
-block in a Java method. It’s obvious that it returns from the function and not from the loop or block. Kotlin allows you 
-to preserve the same behavior when you switch from language features to functions that take lambdas as arguments.
+block in a Java method. It’s obvious that it returns from the function and not from the loop or block. Kotlin allows 
+you to preserve the same behavior when you switch from language features to functions that take lambdas as arguments.
 
 * Note that the return from the outer function is possible 
 **only if the function that takes the lambda as an argument is inlined**. The body of the `forEach` function is inlined 
 together with the body of the lambda, so it’s easy to compile the `return` expression so that it returns from the 
 enclosing function. Using the `return` expression in lambdas passed to non-inline functions isn’t allowed. A non-inline 
-function can save the lambda passed to it in a variable and execute it later, when the function has already returned, so 
-it’s too late for the lambda to affect when the surrounding function returns.
+function can save the lambda passed to it in a variable and execute it later, when the function has already returned, 
+so it’s too late for the lambda to affect when the surrounding function returns.
 
 ### 8.3.2. Returning from lambdas: return with a label
 
@@ -387,10 +404,10 @@ function.
 * Higher-order functions take other functions as arguments or return them. You can create such functions by using a 
 function type as the type of a function parameter or return value. 
 * When an inline function is compiled, its bytecode along with the bytecode of a lambda passed to it is inserted 
-directly into the code of the calling function, which ensures that the call happens with no overhead compared to similar 
-code written directly. 
-* Higher-order functions facilitate code reuse within the parts of a single component and let you build powerful generic 
-libraries. 
+directly into the code of the calling function, which ensures that the call happens with no overhead compared to 
+similar code written directly. 
+* Higher-order functions facilitate code reuse within the parts of a single component and let you build powerful 
+generic libraries. 
 * Inline functions allow you to use **non-local returns** — return expressions placed in a lambda that return from the 
 enclosing function. 
 * Anonymous functions provide an alternative syntax to lambda expressions with different rules for resolving the 

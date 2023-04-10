@@ -1,8 +1,11 @@
 package ch_6
 
+import java.lang.Exception
+
 fun main() {
     // 6.2.1
     println("---------------6.2.1--------------")
+    showProgress(80)
     showProgress(150)
 
     // 6.2.2
@@ -26,7 +29,9 @@ fun main() {
 
     // 6.2.6
     println("---------------6.2.6--------------")
-//    fail("Error occurred")
+    // fail("Error occurred")
+    val age = Employee("Sam").age ?: fail("No age")
+    println(age)
 }
 
 // 6.2.1
@@ -60,6 +65,6 @@ class NoResultProcess : Processor<Unit> {
 }
 
 // 6.2.6
-fun fail(message: String): Nothing {
+fun fail(message: String?): Nothing {
     throw IllegalStateException(message)
 }

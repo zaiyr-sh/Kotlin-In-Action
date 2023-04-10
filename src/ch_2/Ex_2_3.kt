@@ -19,13 +19,14 @@ fun main() {
 
     // 2.3.6
     println("---------------2.3.6--------------")
-    println(eval(Sum(Sum(Num(2), Num(5)), Num (10))))
+    println(evalOptimized(Sum(Sum(Num(2), Num(5)), Num (10))))
 }
 
 // 2.3.1
 enum class Color(
-    val r: Int, val g: Int, val b: Int
+    val r: Int, val g: Int, val b: Int // Declares properties of enum constants
 ) {
+    // Specifies property values when each constant is created
     YELLOW(255, 255, 0), GREEN(0, 255, 0), BLUE(0, 0, 255),
     RED(255, 0, 0), ORANGE(255, 165, 0), INDIGO(75, 0, 130),
     VIOLET(238, 130, 238); // The semicolon here is required

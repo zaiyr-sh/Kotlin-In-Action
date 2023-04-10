@@ -50,10 +50,12 @@ fun main() {
     val counter = Ref(0) // Class used to simulate capturing a mutable variable
     val inc = { counter.value++ } // Formally, an immutable variable is captured; but the actual value is stored in a field and can be changed
     println(inc.invoke())
+    println(inc.invoke())
     // In real code, you don’t need to create such wrappers. Instead, you can mutate the variable directly.
     // The first example shows how the second example works under the hood
     var counter2 = 0
     val inc2 = { ++counter2 }
+    println(inc2.invoke())
     println(inc2.invoke())
 
     // 5.1.5

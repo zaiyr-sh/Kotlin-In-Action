@@ -7,12 +7,16 @@ fun main() {
     println("---------------8.1.1--------------")
     // Function that takes two int parameters and returns an Int value
     val sum: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+    println(sum(1, 2))
     // Function that takes no arguments and doesn't return a value
     val action: () -> Unit = { println(42) }
+    action.invoke()
     // Nullable return type
     var canReturnNull: (Int, Int) -> Int? = { x: Int, y: Int -> null }
+    println(canReturnNull(1, 2))
     // Nullable variable of a function type
     var funOrNull: ((Int, Int) -> Int)? = null
+    println(funOrNull?.invoke(1, 2) ?: "No result")
 
     val url = "https://kotlinlang.org/"
     // You can use the names provided in the API as lambda arguments names ...
@@ -181,7 +185,6 @@ class ContactListFilters {
             return startsWithPrefix // Returns a variable of a function type
         }
         return { startsWithPrefix(it) && it.phoneNumber != null } // Returns a lambda from this function
-
     }
 }
 

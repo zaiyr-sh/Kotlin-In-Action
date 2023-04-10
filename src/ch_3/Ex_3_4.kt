@@ -1,10 +1,15 @@
 package ch_3
 
-fun main() {
+fun main(args: Array<String>) {
+    // 3.4.2
+    println("---------------3.4.2--------------")
+    val list = listOf("args: ", *args) // Spread operator unpacks the array contents
+    println(list)
     // 3.4.3
     println("---------------3.4.3--------------")
     val (number, name) = 1 to "one"
-    println(1 to "one")
+    println(number)
+    println(name)
 }
 
 // 3.4.1

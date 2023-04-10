@@ -32,19 +32,14 @@ class User1 constructor(nickname: String) {
     }
 }
 
-class User2(
-    // "val" means the corresponding property is generated for the constructor parameter
-    val nickname: String,
-    // provides a default value for the constructor parameter
-    val isSubscribed: Boolean = true
-)
-
 // 4.2.2
 open class SomeView {
+    // Secondary constructor
     constructor(ctx: Context) {
         // some code
     }
 
+    // Secondary constructor
     constructor(ctx: Context, attr: AttributeSet) {
         // some code
     }
@@ -52,7 +47,7 @@ open class SomeView {
 
 class MyButton : SomeView {
     // Calling superclass constructor
-    constructor(ctx: Context): super(ctx) {
+    constructor(ctx: Context): super(ctx, SimpleAttributeSet.EMPTY) { // Delegates to another constructor of the class
         // some code
     }
 
@@ -80,8 +75,7 @@ interface User {
         get() = "$nickname@gmail.com"
 }
 
-// Primary Constructor property
-class PrivateUser(override val nickname: String): User
+class PrivateUser(override val nickname: String): User // Primary Constructor property
 
 class SubscribingUser(val email: String): User {
     override val nickname: String

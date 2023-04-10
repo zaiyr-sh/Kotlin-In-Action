@@ -1,6 +1,5 @@
 package ch_7
 
-import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 import java.beans.PropertyChangeSupport
 import kotlin.properties.Delegates
@@ -31,7 +30,7 @@ fun main() {
     for ((attrName, value) in data) {
         e.setAttributes(attrName, value)
     }
-    println(e.name)
+    println("${e.name} works in the ${e.company} company!")
 }
 
 // 7.5.2
@@ -156,10 +155,7 @@ class Engineer {
     // Uses the map as delegated property
     val name: String by _attributes
 
+    // Uses the map as delegated property
+    val company: String by _attributes
+
 }
-
-
-
-
-
-

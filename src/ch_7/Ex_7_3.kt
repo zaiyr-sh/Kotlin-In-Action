@@ -21,7 +21,7 @@ fun main() {
     // 7.3.3
     println("---------------7.3.3--------------")
     val now = LocalDate.now()
-    val vacation = now..now.plusDays(10) // Creates a 10-day range starting from now
+    val vacation: ClosedRange<LocalDate> = now..now.plusDays(10) // Creates a 10-day range starting from now
     println(now.plusWeeks(1) in vacation)
 
     val n = 9

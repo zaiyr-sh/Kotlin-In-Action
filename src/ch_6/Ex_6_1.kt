@@ -8,8 +8,8 @@ fun main() {
 
     // 6.1.3
     println("---------------6.1.3--------------")
-    println("abs")
-    println(null)
+    printAllCaps("abs")
+    printAllCaps(null)
 
     // 6.1.4
     println("---------------6.1.4--------------")
@@ -89,8 +89,7 @@ class Person(val firstName: String, val lastName: String) {
 
 // 6.1.6
 fun ignoreNulls(s: String?) {
-    // The exception points to this line
-    val sNotNull: String = s!!
+    val sNotNull: String = s!! // The exception points to this line
     println(sNotNull.length)
 }
 

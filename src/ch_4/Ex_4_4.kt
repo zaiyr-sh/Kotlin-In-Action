@@ -119,28 +119,3 @@ fun <T> loadFromJSON(factory: JSONFactory<T>): String {
 fun Patient.Companion.toJSON() : String {
     return "..."
 }
-
-// 4.4.4
-// Declares an anonymous object extending MouseAdapter
-val listener = object : MouseAdapter() {
-    // Override MouseAdapter method
-    override fun mouseClicked(e: MouseEvent?) {
-        super.mouseClicked(e)
-    }
-
-    // Override MouseAdapter method
-    override fun mouseEntered(e: MouseEvent?) {
-        super.mouseEntered(e)
-    }
-}
-
-// Accessing local variables from an anonymous object
-fun countClicks() {
-    var clickCount = 0
-    val listener = object : MouseAdapter() {
-        override fun mouseClicked(e: MouseEvent?) {
-            clickCount++
-            super.mouseClicked(e)
-        }
-    }
-}

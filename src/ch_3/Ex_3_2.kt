@@ -4,10 +4,10 @@ import java.lang.StringBuilder
 
 fun main() {
     val list = listOf(1,2,3)
-    println(jointToString(list))
+    println(joinToString(list))
 }
 
-fun <T> jointToString(
+fun <T> joinToString(
     collection: Collection<T>,
     separator: String = "",
     prefix: String = "",

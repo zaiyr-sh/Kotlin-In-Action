@@ -12,19 +12,19 @@ the `+` operator on instances of this class. Because of that, in Kotlin we refer
 
 * Kotlin uses the principle of conventions, instead of relying on types as Java does, because this allows developers to 
 adapt existing Java classes to the requirements of Kotlin language features. The set of interfaces implemented by a 
-class is fixed, and Kotlin can’t modify an existing class so that it would implement additional interfaces. On the other 
-hand, defining new methods for a class is possible through the mechanism of extension functions. You can define any 
-convention methods as extensions and thereby adapt any existing Java class without modifying its code.  
+class is fixed, and Kotlin can’t modify an existing class so that it would implement additional interfaces. On the 
+other hand, defining new methods for a class is possible through the mechanism of extension functions. You can define 
+any convention methods as extensions and thereby adapt any existing Java class without modifying its code.  
 
 ---
 
 ## 7.1. Overloading arithmetic operators
 
-* The most straightforward example of the use of conventions in Kotlin is arithmetic operators. In Java, the full set of 
-arithmetic operations can be used only with primitive types, and additionally, the `+` operator can be used with `String`
-values. But these operations could be convenient in other cases as well. For example, if you’re working with numbers 
-through the `BigInteger` class, it’s more elegant to sum them using `+` than to call the `add` method explicitly. To add 
-an element to a collection, you may want to use the `+=` operator. Kotlin allows you to do that.
+* The most straightforward example of the use of conventions in Kotlin is arithmetic operators. In Java, the full set 
+of arithmetic operations can be used only with primitive types, and additionally, the `+` operator can be used with 
+`String` values. But these operations could be convenient in other cases as well. For example, if you’re working with 
+numbers through the `BigInteger` class, it’s more elegant to sum them using `+` than to call the `add` method 
+explicitly. To add an element to a collection, you may want to use the `+=` operator. Kotlin allows you to do that.
 
 ### 7.1.1. Overloading binary arithmetic operations
 
@@ -37,7 +37,7 @@ corresponding convention and that you didn’t define a function that accidental
 * After you declare the plus function with the `operator` modifier, you can sum up your objects using just the `+` sign.
 
 ![Figure 7.1. The + operator is transformed into a plus function call.](../res/fig_7_1.png)
-> Figure 7.1. The + operator is transformed into a plus function call.
+> Figure 7.1. The `+` operator is transformed into a `plus` function call.
 
 * As an alternative to declaring the operator as a member, you can define the operator as an extension function.
 
@@ -52,19 +52,19 @@ need to define in your class.
 yourself. The operators `*`, `/`, and `%` have the same precedence, which is higher than the precedence of the `+` and 
 `-` operators.
 
-* Kotlin operators are easy to call from Java: because every overloaded operator is defined as a function, you call them 
-as regular functions using the full name.
+* Kotlin operators are easy to call from Java: because every overloaded operator is defined as a function, you call
+them as regular functions using the full name.
 
 * When you define an operator, you don’t need to use the same types for the two operands.
 
-* Note that Kotlin operators don’t automatically support **commutativity** (the ability to swap the left and right sides 
-of an operator). If you want users to be able to write `1.5 * p` in addition to `p * 1.5`, you need to define a separate 
-operator for that: `operator fun Double.times(p: Point): Point`.
+* Note that Kotlin operators don’t automatically support **commutativity** (the ability to swap the left and right 
+sides of an operator). If you want users to be able to write `1.5 * p` in addition to `p * 1.5`, you need to define a 
+separate operator for that: `operator fun Double.times(p: Point): Point`.
 
 * The return type of an operator function can also be different from either of the operand types.
 
-* Note that you can `overload` operator functions like regular functions: you can define multiple methods with different 
-parameter types for the same method name.
+* Note that you can `overload` operator functions like regular functions: you can define multiple methods with 
+different parameter types for the same method name.
 
 * Here’s the full list of functions provided by Kotlin for performing bitwise operations:
   * `shl` — Signed shift left 
@@ -85,14 +85,14 @@ Operators such as `+=`, `-=`, and so on are called **compound assignment operato
 * In some cases, it makes sense to define the `+=` operation that would modify an object referenced by the variable on 
 which it’s used, but not reassign the reference. One such case is adding an element to a mutable collection.
 
-* If you define a function named `plusAssign` with the `Unit` return type, Kotlin will call it when the `+=` operator is 
-used. Other binary arithmetic operators have similarly named counterparts: `minusAssign`, `timesAssign`, and so on.
+* If you define a function named `plusAssign` with the `Unit` return type, Kotlin will call it when the `+=` operator 
+is used. Other binary arithmetic operators have similarly named counterparts: `minusAssign`, `timesAssign`, and so on.
 
 * When you write `+=` in your code, theoretically both `plus` and `plusAssign` functions can be called. If this is the 
 case, and both functions are defined and applicable, the compiler reports an error. One possibility to resolve it is 
-replacing your use of the operator with a regular function call. Another is to replace a `var` with a `val`, so that the 
-`plusAssign` operation becomes inapplicable. But in general, it’s best to design new classes consistently: try not to 
-add both `plus` and `plusAssign` operations at the same time. If your class is immutable, like `Point` in one of the 
+replacing your use of the operator with a regular function call. Another is to replace a `var` with a `val`, so that 
+the `plusAssign` operation becomes inapplicable. But in general, it’s best to design new classes consistently: try not 
+to add both `plus` and `plusAssign` operations at the same time. If your class is immutable, like `Point` in one of the 
 earlier examples, you should provide only operations that return a new value (such as `plus`). If you design a mutable 
 class, like a builder, provide only `plusAssign` and similar operations.
 
@@ -155,9 +155,9 @@ object is larger than another. But in Java, there’s no shorthand syntax for ca
 primitive types can be compared using `<` and `>`; all other types require you to write `element1.compareTo(element2)` 
 explicitly.
 
-* Kotlin supports the same `Comparable` interface. But the `compareTo` method defined in that interface can be called by 
-convention, and uses of comparison operators (`<`, `>`, `<=`, and `>=`) are translated into calls of `compareTo`. The 
-return type of compareTo has to be `Int`. The expression `p1 < p2` is equivalent to `p1.compareTo(p2) < 0`. Other 
+* Kotlin supports the same `Comparable` interface. But the `compareTo` method defined in that interface can be called 
+by convention, and uses of comparison operators (`<`, `>`, `<=`, and `>=`) are translated into calls of `compareTo`. 
+The return type of compareTo has to be `Int`. The expression `p1 < p2` is equivalent to `p1.compareTo(p2) < 0`. Other 
 comparison operators work exactly the same way.
 
 ![Figure 7.6. Comparison of two objects is transformed into comparing the result of the compareTo call with zero.](../res/fig_7_6.png)
@@ -171,8 +171,8 @@ repeat the keyword when you override the function.
 * Note how you can use the `compareValuesBy` function from the Kotlin standard library to implement the `compareTo` 
 method easily and concisely. This function receives a list of callbacks that calculate values to be compared. The 
 function calls each callback in order for both objects and compares the return values. If the values are different, 
-it returns the result of the comparison. If they’re the same, it proceeds to the next callback or returns 0 if there are 
-no more callbacks to call. The callbacks can be passed as lambdas or, as you do here, as property references.
+it returns the result of the comparison. If they’re the same, it proceeds to the next callback or returns 0 if there 
+are no more callbacks to call. The callbacks can be passed as lambdas or, as you do here, as property references.
 
 * All Java classes that implement the `Comparable` interface can be compared in Kotlin using the concise 
 operator syntax.
@@ -184,8 +184,8 @@ operator syntax.
 * Some of the most common operations for working with collections are getting and setting elements by index, as well as 
 checking whether an element belongs to a collection. All of these operations are supported via operator syntax: To get 
 or set an element by index, you use the syntax `a[b]` (called the **index operator**). The `in` operator can be used to 
-check whether an element is in a collection or range and also to iterate over a collection. You can add those operations 
-for your own classes that act as collections.
+check whether an element is in a collection or range and also to iterate over a collection. You can add those 
+operations for your own classes that act as collections.
 
 ### 7.3.1. Accessing elements by index: “get” and “set”
 
@@ -197,8 +197,8 @@ for your own classes that act as collections.
 > Figure 7.7. Access via square brackets is transformed into a `get` function call.
 
 * Note that the parameter of `get` can be any type, not just `Int`. You can also define a `get` method with multiple 
-parameters. For example, if you’re implementing a class to represent a two-dimensional array or matrix, you can define a 
-method such as `operator fun get(row-Index: Int, colIndex: Int)` and call it as `matrix[row, col]`. You can define 
+parameters. For example, if you’re implementing a class to represent a two-dimensional array or matrix, you can define 
+a method such as `operator fun get(rowIndex: Int, colIndex: Int)` and call it as `matrix[row, col]`. You can define 
 multiple overloaded `get` methods with different parameter types, if your collection can be accessed with different 
 key types.
 
@@ -273,7 +273,8 @@ variable in the declaration.
 ![Figure 7.11. Destructuring declarations are transformed into componentN function calls.](../res/fig_7_11.png)
 > Figure 7.11. Destructuring declarations are transformed into `componentN` function calls.
 
-* For a `data` class, the compiler generates a `componentN` function for every property declared in the primary constructor.
+* For a `data` class, the compiler generates a `componentN` function for every property declared in the primary 
+constructor.
 
 ### 7.4.1. Destructuring declarations and loops
 
@@ -314,18 +315,18 @@ initial property `p` delegates.
 > Figure 7.13. Generated class.
 
 * By convention, the `Delegate` class must have `getValue` and `setValue` methods (the latter is required only for 
-mutable properties). As usual, they can be members or extensions. To simplify the explanation, we omit their parameters; 
-the exact signatures will be covered later in this chapter. In a simple form, the `Delegate` class might look like the 
-following:
+mutable properties). As usual, they can be members or extensions. To simplify the explanation, we omit their 
+parameters; the exact signatures will be covered later in this chapter. In a simple form, the `Delegate` class might 
+look like the following:
 
 ![Figure 7.14. The Delegate class.](../res/fig_7_14.png)
-> Figure 7.14. The Delegate class.
+> Figure 7.14. The `Delegate` class.
 
 ### 7.5.2. Using delegated properties: lazy initialization and “by lazy()”
 
 * **Lazy initialization** is a common pattern that entails creating part of an object on demand, when it’s accessed for 
-the first time. This is helpful when the initialization process consumes significant resources and the data isn’t always 
-required when the object is used.
+the first time. This is helpful when the initialization process consumes significant resources and the data isn’t 
+always required when the object is used.
 
 > ✅ Ex_7_5.kt (7.5.2)
 
@@ -339,11 +340,11 @@ What’s more, it doesn’t always work correctly: the implementation isn’t th
 solution.
 
 * The code becomes much simpler with the use of a delegated property, which can encapsulate both the backing property 
-used to store the value and the logic ensuring that the value is initialized only once. The delegate you can use here is 
-returned by the `lazy` standard library function.
+used to store the value and the logic ensuring that the value is initialized only once. The delegate you can use here 
+is returned by the `lazy` standard library function.
 
-* The `lazy` function returns an object that has a method called `getValue` with the proper signature, so you can use it 
-together with the `by` keyword to create a delegated property. The argument of `lazy` is a lambda that it calls to 
+* The `lazy` function returns an object that has a method called `getValue` with the proper signature, so you can use 
+it together with the `by` keyword to create a delegated property. The argument of `lazy` is a lambda that it calls to 
 initialize the value. The `lazy` function is thread-safe by default; and if you need to, you can specify additional 
 options to tell it which lock to use or to bypass the synchronization entirely if the class is never used in a 
 multithreaded environment.
@@ -367,9 +368,9 @@ helper class to access `changeSupport`.
 * Compared to the previous version, this `ObservableProperty` has the following changes:
   * The `getValue` and `setValue` functions are now marked as `operator`, as required for all functions used through 
   conventions. 
-  * You add two parameters to those functions: one to receive the instance for which the property is get or set, and the 
-  second to represent the property itself. The property is represented as an object of type `KProperty`. All you need to 
-  know now is that you can access the name of the property as `KProperty.name`. 
+  * You add two parameters to those functions: one to receive the instance for which the property is get or set, and 
+  the second to represent the property itself. The property is represented as an object of type `KProperty`. All you 
+  need to know now is that you can access the name of the property as `KProperty.name`. 
   * You remove the name property from the primary constructor because you can now access the property name through 
   `KProperty`.
 
@@ -397,7 +398,7 @@ can call `getValue` and `setValue` with the correct parameter types. As with oth
 will also use an object of type `KProperty` to represent the property. We’ll refer to this object as `<property>`.
 
 ![Figure 7.15. When you access a property, the getValue and setValue functions on <delegate> are called.](../res/fig_7_15.png)
-> Figure 7.15. When you access a property, the getValue and setValue functions on <delegate> are called.
+> Figure 7.15. When you access a property, the `getValue` and `setValue` functions on `<delegate>` are called.
 
 * The mechanism is fairly simple, yet it enables many interesting scenarios. You can customize where the value of the 
 property is stored (in a map, in a database table, or in the cookies of a user session) and also what happens when the 
@@ -421,8 +422,8 @@ and `MutableMap` interfaces. The name of the property is automatically used as t
 ### 7.5.6. Delegated properties in frameworks
 
 * Let’s say your database contains the table `Users` with two columns: `name` of string type and `age` of integer type. 
-You can define the classes `Users` and `User` in Kotlin. Then all the user entities stored in the database can be loaded 
-and changed in Kotlin code via instances of the `User` class.
+You can define the classes `Users` and `User` in Kotlin. Then all the user entities stored in the database can be 
+loaded and changed in Kotlin code via instances of the `User` class.
 
 ![Figure 7.16. Accessing database columns using delegated properties.](../res/fig_7_16.png)
 > Figure 7.16. Accessing database columns using delegated properties.
