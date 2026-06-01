@@ -9,8 +9,8 @@ fun User.validateBeforeSave() {
                 "Can't save user $id empty $fieldName" // You can access properties of User directly
             )
     }
-    validate(name, "Zaiyr")
-    validate(address, "Somewhere near")
+    validate(name, "Name")
+    validate(address, "Address")
 }
 
 fun saveUser(user: User) {
