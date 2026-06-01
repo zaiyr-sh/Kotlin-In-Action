@@ -13,6 +13,7 @@ fun main() {
     println("---------------3.3.4--------------")
     val view: View = Button()
     view.showOff()
+    view.click()
 
     // 3.3.5
     println("---------------3.3.5--------------")
