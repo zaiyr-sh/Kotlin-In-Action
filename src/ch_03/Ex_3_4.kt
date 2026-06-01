@@ -20,4 +20,4 @@ fun Collection<Int>.max(): Int { /* finding a maximum in a collection */ TODO() 
 fun <T> listOfArgs(vararg values: T): List<T> { TODO() }
 
 // 3.4.3
-infix fun Any.to(other: Any) = Pair(this, other)
+infix fun Any.to(other: Any) = Pair(this, other) // listOf(this, other)
